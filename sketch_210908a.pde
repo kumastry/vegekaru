@@ -17,8 +17,8 @@ class Card {
     this.x = x;
     this.y = y;
     this.path = path;
-    img = loadImage(path);
-    name = path;
+    this.img = loadImage(path);
+    this.name = path;
   }
   
   void display() {
@@ -45,6 +45,7 @@ int cur = 0;
 boolean ready = false;
 int baseTime = 0;
 static int SCORE_NUMBER = 5;
+static int CARD_NUMBER = 10;
 
 void setup() {
   size(800, 600);
@@ -126,48 +127,26 @@ void draw() {
 
 void mouseClicked() {
   int time = millis() - baseTime;
-  for(int i = 0; i < 10; i++) {
+  for(int i = 0; i < CARD_NUMBER; i++) {
     if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].img.width
     && mouseY >= card[i].y && mouseY <= card[i].y + card[i].img.height && card[i].isShow == true && ready ==true) {
       println(card[i].name);
       
       if(path[cur] == card[i].name) {
+        //カードを消失させる(見えなくさせる)
         card[i].isShow = false;
         cur ++;
         
         //終わりの処理
-        if(cur == 10) {
-          
-          //上位を5を記録
-          endTime = time / 1000.0;
-          String[] scores = loadStrings(savefile);
-          float[] saveScores = new float[scores.length+1];
-          saveScores[0]  = endTime;
-          for(int j = 0; j < scores.length; j++) {
-            saveScores[j+1] = float(scores[j]);
-          }
-          
-          saveScores = sort(saveScores);
-          
-          int min_num = min(SCORE_NUMBER, saveScores.length);
-          String[] memoScores = new String[min_num];
-          for(int j = 0; j < min_num; j++) {
-            memoScores[j] = str(saveScores[j]);
-          }
-          
-          
-          saveStrings(savefile, memoScores);
-          
-          
+        if(cur == CARD_NUMBER) {
+          saveScore(time);
         }
         
-        correctNum ++;
-        correctSnd.rewind();
-        correctSnd.play();
+        correctNum ++;        
+        cardClicked(correctSnd);
       } else {
         wrongNum ++;
-        wrongSnd.rewind();
-        wrongSnd.play();
+        cardClicked(wrongSnd);
         
       }
     }
@@ -202,10 +181,41 @@ void displayScore() {
   
   int min_num = min(SCORE_NUMBER, score.length);
   
-  for(int i = 0; i < SCORE_NUMBER; i++) {
+  for(int i = 0; i < min_num; i++) {
     fill(0);
     textSize(32);
     text(str(i+1) + ":", height/2, 100*i + 50);
-    text(score[i],height/2 + 60, 100*i + 50);
+    text(score[i],height/2 + 50, 100*i + 50);
   }
+  
+  if(min_num < SCORE_NUMBER) {
+    for(int i = min_num-1; i < SCORE_NUMBER; i++) {
+      text(str(i+1) + ":", height/2, 100*i + 50);
+      text("",height/2 + 50, 100*i + 50);
+    }
+  }
+}
+
+void cardClicked(AudioSnippet snd) {
+  snd.rewind();
+  snd.play();
+}
+
+void saveScore(float time) {
+    //上位を5を記録
+    endTime = time / 1000.0;
+    String[] scores = loadStrings(savefile);
+    float[] saveScores = new float[scores.length+1];
+    saveScores[0]  = endTime;
+    for(int j = 0; j < scores.length; j++) {
+      saveScores[j+1] = float(scores[j]);
+    }
+    
+    saveScores = sort(saveScores);
+    int min_num = min(SCORE_NUMBER, saveScores.length);
+    String[] memoScores = new String[min_num];
+    for(int j = 0; j < min_num; j++) {
+      memoScores[j] = str(saveScores[j]);
+    }    
+    saveStrings(savefile, memoScores);    
 }
