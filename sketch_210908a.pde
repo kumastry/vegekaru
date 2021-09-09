@@ -1,5 +1,6 @@
 import ddf.minim.*;
 
+//カルタのクラス
 class Card {
   int x;
   int y;
@@ -27,6 +28,8 @@ class Card {
   }
 }
 
+
+
 Card card[] = new Card [10];
 PImage img;
 String path[] = {"ゴーヤ.png","imo.png","kabu.png","melo.png","nasu.png",
@@ -41,13 +44,14 @@ float endTime;
 int cur = 0;
 boolean ready = false;
 int baseTime = 0;
+static int SCORE_NUMBER = 5;
 
 void setup() {
   size(800, 600);
   shuffle(path);
   minim = new Minim(this);
-  correctSnd = minim.loadSnippet("Quiz-Correct_Answer02-1.mp3");
-  wrongSnd = minim.loadSnippet("Quiz-Wrong_Buzzer02-3.mp3");
+  correctSnd = minim.loadSnippet("sound/Quiz-Correct_Answer02-1.mp3");
+  wrongSnd = minim.loadSnippet("sound/Quiz-Wrong_Buzzer02-3.mp3");
   PFont font = createFont("Meiryo", 50);
   textFont(font);
   
@@ -105,10 +109,16 @@ void draw() {
   text(path[cur],30, 500, 200, 200); 
   text(str(time/1000), 250, 500, 200, 200);
   } else {
+    
+    //終了とリザルト画面
     fill(0);
     textSize(32);
     text("FINISH",30, 500, 200, 200);
-    text(str(endTime), 140, 500, 200, 200);
+    text(str(endTime), 150, 500, 200, 200);
+    
+    //スコア画面
+    displayScore();
+    
   }
   
   }
@@ -124,23 +134,31 @@ void mouseClicked() {
       if(path[cur] == card[i].name) {
         card[i].isShow = false;
         cur ++;
+        
+        //終わりの処理
         if(cur == 10) {
+          
+          //上位を5を記録
           endTime = time / 1000.0;
-          
-          
           String[] scores = loadStrings(savefile);
           float[] saveScores = new float[scores.length+1];
           saveScores[0]  = endTime;
           for(int j = 0; j < scores.length; j++) {
             saveScores[j+1] = float(scores[j]);
           }
+          
           saveScores = sort(saveScores);
-          String[] memoScores = new String[saveScores.length];
-          for(int j = 0; j < saveScores.length; j++) {
+          
+          int min_num = min(SCORE_NUMBER, saveScores.length);
+          String[] memoScores = new String[min_num];
+          for(int j = 0; j < min_num; j++) {
             memoScores[j] = str(saveScores[j]);
           }
+          
+          
           saveStrings(savefile, memoScores);
-       
+          
+          
         }
         
         correctNum ++;
@@ -177,4 +195,17 @@ void shuffle(String[] array) {
       array[i] = array[rnd];
       array[rnd] = tmp;
     }
-}          
+}   
+
+void displayScore() {
+  String [] score = loadStrings(savefile);
+  
+  int min_num = min(SCORE_NUMBER, score.length);
+  
+  for(int i = 0; i < SCORE_NUMBER; i++) {
+    fill(0);
+    textSize(32);
+    text(str(i+1) + ":", height/2, 100*i + 50);
+    text(score[i],height/2 + 60, 100*i + 50);
+  }
+}
