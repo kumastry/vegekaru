@@ -129,7 +129,7 @@ void mouseClicked() {
   int time = millis() - baseTime;
   for(int i = 0; i < CARD_NUMBER; i++) {
     if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].img.width
-    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].img.height && card[i].isShow == true && ready ==true) {
+    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].img.height && card[i].isShow == true && ready == true) {
       println(card[i].name);
       
       if(path[cur] == card[i].name) {

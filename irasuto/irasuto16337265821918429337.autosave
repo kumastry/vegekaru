@@ -1,0 +1,80 @@
+
+PImage [] img = new PImage[19];
+String [] odai = new String[19];
+
+int a, b, c, d;
+void setup() {
+
+  size(600, 500);
+  img[0] = loadImage("cabbage.png");
+  img[1] = loadImage("carrot.png");
+  img[2] = loadImage("corn.png");
+  img[3] = loadImage("daikon.png");
+  img[4] = loadImage("gobou.png");
+  img[5] = loadImage("kabocha.png");
+  img[6] = loadImage("lettuce.png");
+  img[7] = loadImage("nasu.png");
+  img[8] = loadImage("negi.png");
+  img[9] = loadImage("paprika.png");
+  img[10] = loadImage("piman.png");
+  img[11] = loadImage("potato.png");
+  img[12] = loadImage("renkon.png");
+  img[13] = loadImage("satsumaimo.png");
+  img[14] = loadImage("shiitake.png");
+  img[15] = loadImage("shimeji.png");
+  img[16] = loadImage("tamanegi.png");
+  img[17] = loadImage("tomato.png");
+  img[18] = loadImage("kyuuri.png");
+
+  odai[0] = "キャベツ";
+  odai[1] = "にんじん";
+  odai[2] = "とうもろこし";
+  odai[3] = "だいこん";
+  odai[4] = "ごぼう";
+  odai[5] = "かぼちゃ";
+  odai[6] = "レタス";
+  odai[7] = "なす";
+  odai[8] = "ねぎ";
+  odai[9] = "パプリカ";
+  odai[10] = "ピーマン";
+  odai[11] = "じゃがいも";
+  odai[12] = "れんこん";
+  odai[13] = "さつまいも";
+  odai[14] = "しいたけ";
+  odai[15] = "しめじ";
+  odai[16] = "たまねぎ";
+  odai[17] = "トマト";
+  odai[18] = "きゅうり";
+}
+
+void draw() {
+  noLoop();
+  kasaneru();
+}
+
+void kasaneru() {
+  int flag = 0;
+  a = int(random(19));
+  b = int(random(19));
+  c = int(random(19));
+  d = int(random(19));
+
+  while (flag != 1) {
+    if (a != b && b != c && c != d && a != c && b != d && a != d) {
+      background(255);
+      tint(255, 84);
+      image(img[a], 0, 0);
+      image(img[b], 70, 0);
+      image(img[c], 0, 0);
+      image(img[d], 0, 60);
+      println(a, b, c, d);
+      println(odai[a],odai[b],odai[c],odai[d]);
+      flag = 1;
+    } else {
+      a = int(random(19));
+      b = int(random(19));
+      c = int(random(19));
+      d = int(random(19));
+    }
+  }
+}
