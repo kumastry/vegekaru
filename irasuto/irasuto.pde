@@ -4,6 +4,8 @@ Timecount timecount;
 
 PImage background;
 PImage tomato2;
+PImage corn;
+PImage cab;
 PImage logo;
 PImage mode;
 PImage return_title;
@@ -12,6 +14,7 @@ PImage revel;
 PImage revel2;
 PImage karuta;
 PImage [] img = new PImage[19];
+PImage [] imgk = new PImage[19];
 String [] odai = new String[19];
 PImage backButton;
 
@@ -25,7 +28,7 @@ boolean gameclick4 = false;
 
 
 //カルタの変数
-
+boolean isword;
 PImage img1;
 String path[] = {"ゴーヤ.png","imo.png","kabu.png","melo.png","nas.png",
                  "onion.png","papu.png","take.png","tomato1.png","pi.png"};
@@ -69,6 +72,8 @@ void setup() {
 
   background = loadImage("sogen.jpeg");
   tomato2 = loadImage("vegetable/tomato2.png");
+  corn = loadImage("vegetable/corn.png");
+  cab = loadImage("vegetable/cabbage.png");
   logo = loadImage("logo.PNG");
   mode = loadImage("mode.PNG");
   return_title = loadImage("return.PNG");
@@ -98,6 +103,26 @@ void setup() {
   img[16] = loadImage("vegetable/tamanegi.png");
   img[17] = loadImage("vegetable/tomato.png");
   img[18] = loadImage("vegetable/kyuuri.png");
+  
+  imgk[0] = loadImage("vegetable/cabbage.png");
+  imgk[1] = loadImage("vegetable/carrot.png");
+  imgk[2] = loadImage("vegetable/corn.png");
+  imgk[3] = loadImage("vegetable/daikon.png");
+  imgk[4] = loadImage("vegetable/gobou.png");
+  imgk[5] = loadImage("vegetable/kabocha.png");
+  imgk[6] = loadImage("vegetable/lettuce.png");
+  imgk[7] = loadImage("vegetable/nasu.png");
+  imgk[8] = loadImage("vegetable/negi.png");
+  imgk[9] = loadImage("vegetable/paprika.png");
+  imgk[10] = loadImage("vegetable/piman.png");
+  imgk[11] = loadImage("vegetable/potato.png");
+  imgk[12] = loadImage("vegetable/renkon.png");
+  imgk[13] = loadImage("vegetable/satsumaimo.png");
+  imgk[14] = loadImage("vegetable/shiitake.png");
+  imgk[15] = loadImage("vegetable/shimeji.png");
+  imgk[16] = loadImage("vegetable/tamanegi.png");
+  imgk[17] = loadImage("vegetable/tomato.png");
+  imgk[18] = loadImage("vegetable/kyuuri.png");
 
   odai[0] = "キャベツ";
   odai[1] = "にんじん";
@@ -120,7 +145,7 @@ void setup() {
   odai[18] = "きゅうり";
   
   for(int i = 0; i < 18; i++) {
-    vegetable[i] = new Vegetable(odai[i], img[i]);
+    vegetable[i] = new Vegetable(odai[i], imgk[i]);
   }
   
   shuffleVegetable(vegetable);
@@ -177,12 +202,12 @@ int gameTitle() {
   background.resize(width, height);
   background(background);
   tomato2.resize(width/3, 0);
-  img[0].resize(width/3, 0);
-  img[2].resize(0, width/3);
+  cab.resize(width/3, 0);
+  corn.resize(0, width/3);
   logo.resize(width/2, 0);
   image(tomato2, width*0.04, height*0.2);
-  image(img[0], width*0.65, height*0.05);
-  image(img[2], width*0.7, height*0.2);
+  image(cab, width*0.65, height*0.05);
+  image(corn, width*0.7, height*0.2);
   image(logo, width/4, height*0.2);
 
 
@@ -308,12 +333,12 @@ int karutaMode() {
 
   
   if(mousePressed == true && dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2){
-    
+    isword = true;
     return 4;
   }
   
   if(mousePressed == true && dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2){
-    
+    isword = false;
     return 4;
   }
 
@@ -402,11 +427,18 @@ int gameKaruta(){
   strokeWeight(5);
   rect(25, 450, 850, 140);
   
+  if(isword) {
   fill(0);
   textAlign(CORNER);
-  textSize(32);
-  text(card[cur].vegetable.name,30, 500, 200, 200); 
-  text(str(time/1000), 250, 500, 200, 200);
+  textSize(52);
+  text(card[cur].vegetable.name,width/2-2*52, 485, 330, 300); 
+  } else {
+      fill(0);
+  textAlign(CORNER);
+  textSize(52);
+  text(card[cur].vegetable.detail,width/2-2*52, 485, 330, 300); 
+  }
+  
   } else {
     
     //終了とリザルト画面

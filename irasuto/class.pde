@@ -2,16 +2,22 @@ class Vegetable {
   String name;
   String detail;
   PImage img;
+  final int twidth;
+  final int theight;
   
  Vegetable(String name, PImage img) {
     this.name = name;
     this.img = img;
+    twidth = img.width;
+    theight = img.height;
   }
   
  Vegetable(String name, String detail, PImage img) {
    this.name = name;
    this.img = img;
    this.detail = detail;
+   twidth = img.width;
+   theight = img.height;
  }
 }
 
@@ -27,7 +33,7 @@ class Card {
     this.x = x;
     this.y = y;
     this.vegetable = vegetable;
-    vegetable.img.resize(vegetable.img.width/3-20, vegetable.img.height/3-20);
+    vegetable.img.resize(vegetable.twidth/3-20, vegetable.theight/3-20);
   }
   
   void display() {
