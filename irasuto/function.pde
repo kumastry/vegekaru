@@ -21,12 +21,12 @@ void mouseClicked() {
 
 
   int time = millis() - baseTime;
-  for(int i = 0; i < CARD_NUMBER-8; i++) {
-    if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].img.width
-    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].img.height && card[i].isShow == true && gamemode1) {
-      println(card[i].name);
+  for(int i = 0; i < CARD_NUMBER; i++) {
+    if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].karuta.width
+    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].karuta.height && card[i].isShow == true && gamemode1) {
+      println(card[i].vegetable.name);
       
-      if(path[cur] == card[i].name) {
+      if(card[cur].vegetable.name == card[i].vegetable.name) {
         //カードを消失させる(見えなくさせる)
         card[i].isShow = false;
         cur ++;
@@ -72,7 +72,7 @@ void shuffle(String[] array) {
 } 
 
 
-void shuffleInfo(CardInfo[] array) {
+void shuffleVegetable(Vegetable[] array) {
     // 配列が空か１要素ならシャッフルしようがないので、そのままreturn
     if (array.length <= 1) {
         return;
@@ -81,11 +81,27 @@ void shuffleInfo(CardInfo[] array) {
     for(int i = 0; i < array.length; i++) {
       int rnd = (int)( Math.random() * (double)array.length );
       
-      CardInfo tmp = array[i];
+      Vegetable tmp = array[i];
       array[i] = array[rnd];
       array[rnd] = tmp;
     }
 }  
+
+void shuffleCard(Card[] array) {
+    // 配列が空か１要素ならシャッフルしようがないので、そのままreturn
+    if (array.length <= 1) {
+        return;
+    }
+    
+    for(int i = 0; i < array.length; i++) {
+      int rnd = (int)( Math.random() * (double)array.length );
+      
+      Card tmp = array[i];
+      array[i] = array[rnd];
+      array[rnd] = tmp;
+    }
+}  
+
 
 void displayScore() {
   String [] score = loadStrings(savefile);

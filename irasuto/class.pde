@@ -1,9 +1,9 @@
-class CardInfo {
+class Vegetable {
   String name;
   String detail;
   PImage img;
   
-  CardInfo(String name, PImage img) {
+ Vegetable(String name, PImage img) {
     this.name = name;
     this.img = img;
   }
@@ -16,20 +16,20 @@ class Card {
   boolean isShow = true;
   PImage karuta = loadImage("karuta.png");
   
-  private CardInfo cardinfo;
+  private Vegetable vegetable;
   
-  Card(int x, int y, String path) {
+  Card(int x, int y, Vegetable vegetable) {
     this.x = x;
     this.y = y;
-  
-    img.resize(img.width/3-20, img.height/3-20);
+    this.vegetable = vegetable;
+    vegetable.img.resize(vegetable.img.width/3-20, vegetable.img.height/3-20);
   }
   
   void display() {
     if(isShow) {
       
       image(karuta, x, y);
-      image(img, x+20, y+50); 
+      image(vegetable.img, x+15, y+50); 
     }
   }
 }

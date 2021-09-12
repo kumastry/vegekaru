@@ -42,7 +42,7 @@ final int SCORE_NUMBER = 5;
 final int CARD_NUMBER = 10;
 boolean gamemode1 = false;
 Card card[] = new Card [CARD_NUMBER];
-CardInfo info[] = new CardInfo[18];
+Vegetable vegetable[] = new Vegetable[18];
 
 void setup() {
 
@@ -56,19 +56,7 @@ void setup() {
   
 
   
-  int idx = 0;
-  for(int i = 0; i < 2; i++) {
-    for(int j = 0; j < 5; j++) {
-      if(idx == 0) {
-        card[0] = new Card(25, 20, path[0]);
-      } else {
-        card[idx] = new Card(j*(card[idx-1].karuta.width + 35) + 25, i*(card[idx-1].karuta.height + 10) + 20, path[idx]);
-      }
-      idx ++;
-    }
-    
-    
-  }
+
 
    
   
@@ -135,8 +123,24 @@ void setup() {
   odai[18] = "きゅうり";
   
   for(int i = 0; i < 18; i++) {
-    info[i] = new CardInfo(odai[i], img[i]);
+    vegetable[i] = new Vegetable(odai[i], img[i]);
   }
+  
+  shuffleVegetable(vegetable);
+  
+  int idx = 0;
+  for(int i = 0; i < 2; i++) {
+    for(int j = 0; j < 5; j++) {
+      if(idx == 0) {
+        card[0] = new Card(25, 20, vegetable[idx]);
+      } else {
+        card[idx] = new Card(j*(card[idx-1].karuta.width + 35) + 25, i*(card[idx-1].karuta.height + 10) + 20,vegetable[idx]);
+      }
+      idx ++;
+    }
+  }
+  
+  shuffleCard(card);
 
 }
 
@@ -382,7 +386,7 @@ int gameKaruta(){
   fill(0);
   textAlign(CORNER);
   textSize(32);
-  text(path[cur],30, 500, 200, 200); 
+  text(card[cur].vegetable.name,30, 500, 200, 200); 
   text(str(time/1000), 250, 500, 200, 200);
   } else {
     
