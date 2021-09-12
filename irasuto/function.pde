@@ -1,4 +1,5 @@
 void mouseClicked() {
+  println("111111");
   if(state == 1) {
       if (width/2-rectX*3/2< mouseX && mouseX < width/2-rectX/2 && height*0.8-rectY/2 < mouseY && mouseY < height*0.8+rectY/2) {
       tmode = timemode;
@@ -13,14 +14,14 @@ void mouseClicked() {
     
     
     if (width/2-rectX*1.6 < mouseX && mouseX < width/2+rectX*1.6 && height/2-rectY*3/4 < mouseY && mouseY < height/2+rectY*3/4) {
-   
       gameclick4 = true;
+      println("22222");
     }
   }
 
 
   int time = millis() - baseTime;
-  for(int i = 0; i < CARD_NUMBER; i++) {
+  for(int i = 0; i < CARD_NUMBER-8; i++) {
     if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].img.width
     && mouseY >= card[i].y && mouseY <= card[i].y + card[i].img.height && card[i].isShow == true && gamemode1) {
       println(card[i].name);
@@ -68,7 +69,23 @@ void shuffle(String[] array) {
       array[i] = array[rnd];
       array[rnd] = tmp;
     }
-}   
+} 
+
+
+void shuffleInfo(CardInfo[] array) {
+    // 配列が空か１要素ならシャッフルしようがないので、そのままreturn
+    if (array.length <= 1) {
+        return;
+    }
+    
+    for(int i = 0; i < array.length; i++) {
+      int rnd = (int)( Math.random() * (double)array.length );
+      
+      CardInfo tmp = array[i];
+      array[i] = array[rnd];
+      array[rnd] = tmp;
+    }
+}  
 
 void displayScore() {
   String [] score = loadStrings(savefile);

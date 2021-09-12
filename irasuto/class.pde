@@ -1,27 +1,35 @@
+class CardInfo {
+  String name;
+  String detail;
+  PImage img;
+  
+  CardInfo(String name, PImage img) {
+    this.name = name;
+    this.img = img;
+  }
+}
+
 //カルタのクラス
 class Card {
   int x;
   int y;
-  int h = 50;
-  int w = 5;
   boolean isShow = true;
+  PImage karuta = loadImage("karuta.png");
   
-  String path;
-  PImage img;
-  String name;
-  String detail;
+  private CardInfo cardinfo;
   
   Card(int x, int y, String path) {
     this.x = x;
     this.y = y;
-    this.path = path;
-    this.img = loadImage(path);
-    this.name = path;
+  
+    img.resize(img.width/3-20, img.height/3-20);
   }
   
   void display() {
     if(isShow) {
-      image(img, x, y); 
+      
+      image(karuta, x, y);
+      image(img, x+20, y+50); 
     }
   }
 }

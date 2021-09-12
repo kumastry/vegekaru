@@ -9,6 +9,8 @@ PImage mode;
 PImage return_title;
 PImage kanban;
 PImage revel;
+PImage revel2;
+PImage karuta;
 PImage [] img = new PImage[19];
 String [] odai = new String[19];
 
@@ -22,7 +24,7 @@ boolean gameclick4 = false;
 
 
 //カルタの変数
-Card card[] = new Card [10];
+
 PImage img1;
 String path[] = {"ゴーヤ.png","imo.png","kabu.png","melo.png","nas.png",
                  "onion.png","papu.png","take.png","tomato1.png","pi.png"};
@@ -36,9 +38,11 @@ float endTime;
 int cur = 0;
 boolean ready = false;
 int baseTime = 0;
-static int SCORE_NUMBER = 5;
-static int CARD_NUMBER = 10;
+final int SCORE_NUMBER = 5;
+final int CARD_NUMBER = 10;
 boolean gamemode1 = false;
+Card card[] = new Card [CARD_NUMBER];
+CardInfo info[] = new CardInfo[18];
 
 void setup() {
 
@@ -50,18 +54,24 @@ void setup() {
   PFont font = createFont("Meiryo", 50);
   textFont(font);
   
+
   
-  card[0] = new Card(20, 20, path[0]);
-  int j = 0;
-  int i = 1;
-  for(int idx = 1; idx < 10; idx++) {
-    card[idx] = new Card(i*(card[idx-1].img.width + 20) + 20, j*(card[idx-1].img.height + 20) + 20, path[idx]);
-    i ++ ;
-    if(idx == 4) {
-      j ++;
-      i = 0;
+  int idx = 0;
+  for(int i = 0; i < 2; i++) {
+    for(int j = 0; j < 5; j++) {
+      if(idx == 0) {
+        card[0] = new Card(25, 20, path[0]);
+      } else {
+        card[idx] = new Card(j*(card[idx-1].karuta.width + 35) + 25, i*(card[idx-1].karuta.height + 10) + 20, path[idx]);
+      }
+      idx ++;
     }
+    
+    
   }
+
+   
+  
   
   shuffle(path);
   
@@ -75,32 +85,34 @@ void setup() {
   fill(255);
 
   background = loadImage("sogen.jpeg");
-  tomato2 = loadImage("tomato2.png");
+  tomato2 = loadImage("vegetable/tomato2.png");
   logo = loadImage("logo.PNG");
   mode = loadImage("mode.PNG");
   return_title = loadImage("return.PNG");
   kanban = loadImage("kanban.png");
   revel = loadImage("revel.PNG");
+  revel2 = loadImage("vege_mode.PNG");
+  karuta = loadImage("karuta.png");
 
-  img[0] = loadImage("cabbage.png");
-  img[1] = loadImage("carrot.png");
-  img[2] = loadImage("corn.png");
-  img[3] = loadImage("daikon.png");
-  img[4] = loadImage("gobou.png");
-  img[5] = loadImage("kabocha.png");
-  img[6] = loadImage("lettuce.png");
-  img[7] = loadImage("nasu.png");
-  img[8] = loadImage("negi.png");
-  img[9] = loadImage("paprika.png");
-  img[10] = loadImage("piman.png");
-  img[11] = loadImage("potato.png");
-  img[12] = loadImage("renkon.png");
-  img[13] = loadImage("satsumaimo.png");
-  img[14] = loadImage("shiitake.png");
-  img[15] = loadImage("shimeji.png");
-  img[16] = loadImage("tamanegi.png");
-  img[17] = loadImage("tomato.png");
-  img[18] = loadImage("kyuuri.png");
+  img[0] = loadImage("vegetable/cabbage.png");
+  img[1] = loadImage("vegetable/carrot.png");
+  img[2] = loadImage("vegetable/corn.png");
+  img[3] = loadImage("vegetable/daikon.png");
+  img[4] = loadImage("vegetable/gobou.png");
+  img[5] = loadImage("vegetable/kabocha.png");
+  img[6] = loadImage("vegetable/lettuce.png");
+  img[7] = loadImage("vegetable/nasu.png");
+  img[8] = loadImage("vegetable/negi.png");
+  img[9] = loadImage("vegetable/paprika.png");
+  img[10] = loadImage("vegetable/piman.png");
+  img[11] = loadImage("vegetable/potato.png");
+  img[12] = loadImage("vegetable/renkon.png");
+  img[13] = loadImage("vegetable/satsumaimo.png");
+  img[14] = loadImage("vegetable/shiitake.png");
+  img[15] = loadImage("vegetable/shimeji.png");
+  img[16] = loadImage("vegetable/tamanegi.png");
+  img[17] = loadImage("vegetable/tomato.png");
+  img[18] = loadImage("vegetable/kyuuri.png");
 
   odai[0] = "キャベツ";
   odai[1] = "にんじん";
@@ -122,7 +134,9 @@ void setup() {
   odai[17] = "トマト";
   odai[18] = "きゅうり";
   
-  
+  for(int i = 0; i < 18; i++) {
+    info[i] = new CardInfo(odai[i], img[i]);
+  }
 
 }
 
@@ -149,7 +163,7 @@ void draw() {
     nextState = gamePile1_answer();
   } else if (state == 2) {
     nextState = ending();
-  } else if(state == 5) {
+  } else if(state == 33) {
     nextState = karutaMode();
   }
   state = nextState;
@@ -198,19 +212,104 @@ int gameTitle() {
   return 0;
 }
 
+int karutaResult() {
+  background(#33ff99);
+
+  fill(0, 126);
+  noStroke();
+  rect(width*7/8+10, height*0.9+10, rectX*0.8, rectY*0.8, 20);
+  fill(#F5A1EF);
+  stroke(0);
+  rect(width*7/8, height*0.9, rectX*0.8, rectY*0.8, 20);
+  textSize(50);
+  fill(0);
+  text("次へ", width*7/8, height*0.9);
+
+  noStroke();
+  fill(0);
+
+  tint(255, 255);
+  kanban.resize(width*6/7, 0);
+  println(kanban.height, kanban.width);
+  image(kanban, width*4/45, rectY/10);
+
+  /*fill(0);
+  textSize(50);
+  text("答え．", width/2, height*0.3);
+  textSize(30);
+  text(odai[a], width*0.2, height/2);
+  text(odai[b], width*0.4, height/2);
+  text(odai[c], width*0.6, height/2);
+  text(odai[d], width*0.8, height/2);
+
+  img[a].resize(width/7, 0);
+  img[b].resize(width/7, 0);
+  img[c].resize(width/7, 0);
+  img[d].resize(width/7, 0);
+  image(img[a], width*0.15, height/2+30);
+  image(img[b], width*0.35, height/2+30);
+  image(img[c], width*0.55, height/2+30);
+  image(img[d], width*0.75, height/2+30);*/
+
+  if (mousePressed == true) {
+    if (width*7/8-rectX*0.4 < mouseX && mouseX < width*7/8+rectX*0.4 && height*0.9-rectY*0.4 < mouseY && mouseY < height*0.9+rectY*0.4) {
+      return 2;
+    }
+  }
+
+  return 21;
+}
+
 int karutaMode() {
   background(#F5A1B4);
   tint(255, 255);
-  revel.resize(width*14/15, 0);
-  image(revel, width/30, height/6);
+  revel2.resize(width*14/15, 0);
+  image(revel2, width/30, height/6);
 
   strokeWeight(2);
   stroke(#666666);
   fill(255);
   ellipse(width*2/9, height*3/4, rectX, rectX);
   ellipse(width*7/9, height*3/4, rectX, rectX);
+  
+  
+  if (dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2) {
+    noStroke();
+    fill(0, 126);
+    ellipse(width*2/9+10, height*3/4+10, rectX, rectX);
+    fill(255);
+    strokeWeight(8);
+    stroke(#ec6d71);
+    ellipse(width*2/9, height*3/4, rectX, rectX);
+  } else if (dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2) {
+    noStroke();
+    fill(0, 126);
+    ellipse(width*7/9+10, height*3/4+10, rectX, rectX);
+    fill(255);
+    strokeWeight(8);
+    stroke(#ec6d71);
+    ellipse(width*7/9, height*3/4, rectX, rectX);
+  }
+
+  fill(0);
+  textSize(40);
+  text("やさいの\nなまえ", width*2/9, height*3/4);
+  text("やさいの\nせつめい", width*7/9, height*3/4);
+
+  
+  if(mousePressed == true && dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2){
+    
+    return 4;
+  }
+  
+  if(mousePressed == true && dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2){
+    
+    return 4;
+  }
+
   return 33;
 }
+
 int gameMode() {
 
   background(#9BF0B2);
@@ -247,7 +346,7 @@ int gameMode() {
     if (gameclick4) {
       gameclick4 = false;
       gamemode1 = true;
-      return 5;
+      return 33;
     }
     
     
@@ -267,16 +366,18 @@ int gameKaruta(){
  
 
   int time = millis() - baseTime;
-  
-  if(cur < 10) { 
-    for(int i = 0; i < 10; i++) {
+  println(card.length);
+  if(cur < CARD_NUMBER) { 
+    for(int i = 0; i < CARD_NUMBER; i++) {
       card[i].display();
+      
+      println(CARD_NUMBER);
   }
   
-   
+
   rectMode(CORNER);
   fill(255);
-  rect(20, 430, 750, 150);
+  rect(25, 445, 850, 140);
   
   fill(0);
   textAlign(CORNER);
