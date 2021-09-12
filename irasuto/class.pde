@@ -7,6 +7,12 @@ class Vegetable {
     this.name = name;
     this.img = img;
   }
+  
+ Vegetable(String name, String detail, PImage img) {
+   this.name = name;
+   this.img = img;
+   this.detail = detail;
+ }
 }
 
 //カルタのクラス
@@ -15,7 +21,6 @@ class Card {
   int y;
   boolean isShow = true;
   PImage karuta = loadImage("karuta.png");
-  
   private Vegetable vegetable;
   
   Card(int x, int y, Vegetable vegetable) {
@@ -27,7 +32,6 @@ class Card {
   
   void display() {
     if(isShow) {
-      
       image(karuta, x, y);
       image(vegetable.img, x+15, y+50); 
     }

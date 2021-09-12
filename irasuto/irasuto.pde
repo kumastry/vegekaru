@@ -13,6 +13,7 @@ PImage revel2;
 PImage karuta;
 PImage [] img = new PImage[19];
 String [] odai = new String[19];
+PImage backButton;
 
 int timemode = 1, tmode;
 int state, a, b, c, d;
@@ -54,12 +55,6 @@ void setup() {
   PFont font = createFont("Meiryo", 50);
   textFont(font);
   
-
-  
-
-
-   
-  
   
   shuffle(path);
   
@@ -81,6 +76,8 @@ void setup() {
   revel = loadImage("revel.PNG");
   revel2 = loadImage("vege_mode.PNG");
   karuta = loadImage("karuta.png");
+  backButton = loadImage("back.png");
+  backButton.resize(backButton.width/3, backButton.height/3);
 
   img[0] = loadImage("vegetable/cabbage.png");
   img[1] = loadImage("vegetable/carrot.png");
@@ -265,11 +262,20 @@ int karutaResult() {
 }
 
 int karutaMode() {
+  
   background(#F5A1B4);
   tint(255, 255);
   revel2.resize(width*14/15, 0);
   image(revel2, width/30, height/6);
-
+  
+  //戻るボタン
+  image(backButton, 10, 10);
+  if(mouseX >= 10 && mouseX <= 10 + backButton.width &&
+  mouseY >= 10 && mouseY <= 10 + backButton.height && mousePressed) {
+    return 1;
+  }
+  
+  
   strokeWeight(2);
   stroke(#666666);
   fill(255);
@@ -373,15 +379,28 @@ int gameKaruta(){
   println(card.length);
   if(cur < CARD_NUMBER) { 
     for(int i = 0; i < CARD_NUMBER; i++) {
-      card[i].display();
       
+      if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].karuta.width
+    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].karuta.height && card[i].isShow == true && gamemode1) {
+      
+      noStroke();
+      fill(0, 126);
+      rect(float(card[i].x)+10, float(card[i].y)+10, float(karuta.width), float(karuta.height));
+      fill(255);
+      strokeWeight(9);
+      stroke(#ec6d71);
+      rect(float(card[i].x), float(card[i].y), float(karuta.width), float(karuta.height));
+      
+      }
       println(CARD_NUMBER);
+      card[i].display();
   }
   
 
   rectMode(CORNER);
   fill(255);
-  rect(25, 445, 850, 140);
+  strokeWeight(5);
+  rect(25, 450, 850, 140);
   
   fill(0);
   textAlign(CORNER);
@@ -410,6 +429,13 @@ int gameSelect() {
   tint(255, 255);
   revel.resize(width*14/15, 0);
   image(revel, width/30, height/6);
+  
+    //戻るボタン
+  image(backButton, 10, 10);
+  if(mouseX >= 10 && mouseX <= 10 + backButton.width &&
+  mouseY >= 10 && mouseY <= 10 + backButton.height && mousePressed) {
+    return 1;
+  }
 
   strokeWeight(2);
   stroke(#666666);
