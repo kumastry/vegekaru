@@ -273,9 +273,10 @@ int karutaResult() {
   textAlign(CORNER);
   
   textSize(64);
-  text("スコア", height/2, 80);
-  
-  text(str(endtime), height/2 - 70, 400);
+  text("これまでのスコア", height/2-70, 80);
+  textSize(48);
+  text("スコア:", 30, 550);
+  text(str((2000*wrongNum+endtime)/1000.0), height/2 - 110, 550);
   String [] score = loadStrings(savefile);
   
   int min_num = min(SCORE_NUMBER, score.length);
@@ -283,19 +284,20 @@ int karutaResult() {
   for(int i = 0; i < min_num; i++) {
     fill(0);
     textSize(32);
-    text(str(i+1) + ":", height/2, 70*i + 150);
-    text(score[i],height/2 + 70, 70*i + 150);
+    text(str(i+1) + ":", height/2+40, 70*i + 150);
+    text(score[i],height/2 + 110, 70*i + 150);
   }
   
   if(min_num < SCORE_NUMBER) {
     for(int i = min_num-1; i < SCORE_NUMBER; i++) {
-      text(str(i+1) + ":", height/2, 70*i + 150);
-      text("",height/2 + 70, 70*i + 150);
+      text(str(i+1) + ":", height/2+40, 70*i + 150);
+      text("",height/2 + 110, 70*i + 150);
     }
   }
 
   if (mousePressed == true) {
     if (width*7/8-rectX*0.4 < mouseX && mouseX < width*7/8+rectX*0.4 && height*0.9-rectY*0.4 < mouseY && mouseY < height*0.9+rectY*0.4) {
+      wrongNum = 0;
       return 2;
     }
   }

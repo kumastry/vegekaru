@@ -134,7 +134,8 @@ void cardClicked(AudioSnippet snd) {
 
 void saveScore(float time) {
     //上位を5を記録
-    endTime = time / 1000.0;
+    
+    endTime = (2000*wrongNum+time) / 1000.0;
     String[] scores = loadStrings(savefile);
     float[] saveScores = new float[scores.length+1];
     saveScores[0]  = endTime;
