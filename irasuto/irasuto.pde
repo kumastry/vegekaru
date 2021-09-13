@@ -145,7 +145,7 @@ void setup() {
   odai[18] = "きゅうり";
   
   for(int i = 0; i < 18; i++) {
-    vegetable[i] = new Vegetable(odai[i], imgk[i]);
+    vegetable[i] = new Vegetable(odai[i], "aaaaaaaaaaaaaaaaaaaa",imgk[i]);
   }
   
   shuffleVegetable(vegetable);
@@ -191,6 +191,8 @@ void draw() {
     nextState = ending();
   } else if(state == 33) {
     nextState = karutaMode();
+  } else if(state == 91) {
+    nextState = karutaResult();
   }
   state = nextState;
 }
@@ -240,7 +242,11 @@ int gameTitle() {
 
 int karutaResult() {
   background(#33ff99);
-
+  
+  rectMode(CORNER);
+  textAlign(CORNER);
+  
+  
   fill(0, 126);
   noStroke();
   rect(width*7/8+10, height*0.9+10, rectX*0.8, rectY*0.8, 20);
@@ -277,13 +283,9 @@ int karutaResult() {
   image(img[c], width*0.55, height/2+30);
   image(img[d], width*0.75, height/2+30);*/
 
-  if (mousePressed == true) {
-    if (width*7/8-rectX*0.4 < mouseX && mouseX < width*7/8+rectX*0.4 && height*0.9-rectY*0.4 < mouseY && mouseY < height*0.9+rectY*0.4) {
-      return 2;
-    }
-  }
+  
 
-  return 21;
+  return 91;
 }
 
 int karutaMode() {
@@ -423,6 +425,7 @@ int gameKaruta(){
   
 
   rectMode(CORNER);
+  
   fill(255);
   strokeWeight(5);
   rect(25, 450, 850, 140);
@@ -440,6 +443,15 @@ int gameKaruta(){
   }
   
   } else {
+    cur = 0;
+    shuffleVegetable(vegetable);
+    for(int i = 0; i < CARD_NUMBER; i++) {
+      card[i] = new Card(card[i].x, card[i].y,vegetable[i]);
+    }
+    rectMode(CENTER);
+    textAlign(CENTER);
+    return 2;
+  }/* else {
     
     //終了とリザルト画面
     fill(0);
@@ -450,7 +462,7 @@ int gameKaruta(){
     //スコア画面
     displayScore();
     
-  }
+  }*/
   
   
   return 4;

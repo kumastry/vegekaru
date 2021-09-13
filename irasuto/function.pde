@@ -25,7 +25,7 @@ void mouseClicked() {
   int time = millis() - baseTime;
   for(int i = 0; i < CARD_NUMBER; i++) {
     if(mouseX >= card[i].x && mouseX <= card[i].x + card[i].karuta.width
-    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].karuta.height && card[i].isShow == true && gamemode1) {
+    && mouseY >= card[i].y && mouseY <= card[i].y + card[i].karuta.height && card[i].isShow == true && state == 4) {
       println(card[i].vegetable.name);
       
       if(card[cur].vegetable.name == card[i].vegetable.name) {
