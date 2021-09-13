@@ -35,7 +35,9 @@ void mouseClicked() {
         
         //終わりの処理
         if(cur == CARD_NUMBER) {
+          endtime = time;
           saveScore(time);
+          
         }
         
         correctNum ++;        

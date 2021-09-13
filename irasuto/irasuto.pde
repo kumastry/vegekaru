@@ -26,6 +26,7 @@ int x, iy = 0;
 boolean gameclick3 = false;
 boolean gameclick4 = false;
 
+int endtime;
 
 //カルタの変数
 boolean isword;
@@ -47,6 +48,7 @@ final int CARD_NUMBER = 10;
 boolean gamemode1 = false;
 Card card[] = new Card [CARD_NUMBER];
 Vegetable vegetable[] = new Vegetable[18];
+String detail[] = new String[18];
 
 void setup() {
 
@@ -143,6 +145,8 @@ void setup() {
   odai[16] = "たまねぎ";
   odai[17] = "トマト";
   odai[18] = "きゅうり";
+  
+  detail = loadStrings("detail.txt");
   
   for(int i = 0; i < 18; i++) {
     vegetable[i] = new Vegetable(odai[i], "aaaaaaaaaaaaaaaaaaaa",imgk[i]);
@@ -243,8 +247,8 @@ int gameTitle() {
 int karutaResult() {
   background(#33ff99);
   
-  rectMode(CORNER);
-  textAlign(CORNER);
+  rectMode(CENTER);
+  textAlign(CENTER);
   
   
   fill(0, 126);
@@ -255,7 +259,7 @@ int karutaResult() {
   rect(width*7/8, height*0.9, rectX*0.8, rectY*0.8, 20);
   textSize(50);
   fill(0);
-  text("次へ", width*7/8, height*0.9);
+  text("次へ", width*7/8, height*0.9 + 10);
 
   noStroke();
   fill(0);
@@ -264,25 +268,37 @@ int karutaResult() {
   kanban.resize(width*6/7, 0);
   println(kanban.height, kanban.width);
   image(kanban, width*4/45, rectY/10);
+  
+  
+  textAlign(CORNER);
+  
+  textSize(64);
+  text("スコア", height/2, 80);
+  
+  text(str(endtime), height/2 - 70, 400);
+  String [] score = loadStrings(savefile);
+  
+  int min_num = min(SCORE_NUMBER, score.length);
+  
+  for(int i = 0; i < min_num; i++) {
+    fill(0);
+    textSize(32);
+    text(str(i+1) + ":", height/2, 70*i + 150);
+    text(score[i],height/2 + 70, 70*i + 150);
+  }
+  
+  if(min_num < SCORE_NUMBER) {
+    for(int i = min_num-1; i < SCORE_NUMBER; i++) {
+      text(str(i+1) + ":", height/2, 70*i + 150);
+      text("",height/2 + 70, 70*i + 150);
+    }
+  }
 
-  /*fill(0);
-  textSize(50);
-  text("答え．", width/2, height*0.3);
-  textSize(30);
-  text(odai[a], width*0.2, height/2);
-  text(odai[b], width*0.4, height/2);
-  text(odai[c], width*0.6, height/2);
-  text(odai[d], width*0.8, height/2);
-
-  img[a].resize(width/7, 0);
-  img[b].resize(width/7, 0);
-  img[c].resize(width/7, 0);
-  img[d].resize(width/7, 0);
-  image(img[a], width*0.15, height/2+30);
-  image(img[b], width*0.35, height/2+30);
-  image(img[c], width*0.55, height/2+30);
-  image(img[d], width*0.75, height/2+30);*/
-
+  if (mousePressed == true) {
+    if (width*7/8-rectX*0.4 < mouseX && mouseX < width*7/8+rectX*0.4 && height*0.9-rectY*0.4 < mouseY && mouseY < height*0.9+rectY*0.4) {
+      return 2;
+    }
+  }
   
 
   return 91;
@@ -336,11 +352,13 @@ int karutaMode() {
   
   if(mousePressed == true && dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2){
     isword = true;
+    baseTime = millis();
     return 4;
   }
   
   if(mousePressed == true && dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2){
     isword = false;
+    baseTime = millis();
     return 4;
   }
 
@@ -383,6 +401,7 @@ int gameMode() {
     if (gameclick4) {
       gameclick4 = false;
       gamemode1 = true;
+      
       return 33;
     }
     
@@ -400,8 +419,8 @@ int gameMode() {
 
 int gameKaruta(){
   background(255);
- 
-
+  
+  
   int time = millis() - baseTime;
   println(card.length);
   if(cur < CARD_NUMBER) { 
@@ -435,11 +454,12 @@ int gameKaruta(){
   textAlign(CORNER);
   textSize(52);
   text(card[cur].vegetable.name,width/2-2*52, 485, 330, 300); 
+  text(str(time),width/2-4*52, 285, 330, 300); 
   } else {
-      fill(0);
-  textAlign(CORNER);
-  textSize(52);
-  text(card[cur].vegetable.detail,width/2-2*52, 485, 330, 300); 
+    fill(0);
+    textAlign(CORNER);
+    textSize(52);
+    text(card[cur].vegetable.detail,width/2-2*52, 485, 330, 300); 
   }
   
   } else {
@@ -450,7 +470,7 @@ int gameKaruta(){
     }
     rectMode(CENTER);
     textAlign(CENTER);
-    return 2;
+    return 91;
   }/* else {
     
     //終了とリザルト画面
