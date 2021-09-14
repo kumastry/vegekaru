@@ -47,8 +47,9 @@ final int SCORE_NUMBER = 5;
 final int CARD_NUMBER = 10;
 boolean gamemode1 = false;
 Card card[] = new Card [CARD_NUMBER];
-Vegetable vegetable[] = new Vegetable[18];
-String detail[] = new String[18];
+Vegetable vegetable[] = new Vegetable[19];
+String detail[] = new String[19];
+String place [] = new String[19]; 
 
 void setup() {
 
@@ -146,10 +147,28 @@ void setup() {
   odai[17] = "トマト";
   odai[18] = "きゅうり";
   
-  detail = loadStrings("detail.txt");
+  detail[0] = "生（う）まれはヨーロッパで胃（い）の粘膜（ねんまく）を強（つよ）くしてくれる優（すぐ）れもの！";
+  detail[1] = "実（じつ）は、皮（かわ）が存在（そんざい）しない！そのままでも食（たべ）べられるんだ〜";
+  detail[2] = "長（なが）いおひげが特徴的（とくちょうてき）。乾燥（かんそう）させて加熱（かねつ）したらポンポン弾（はじ）けます！";
+  detail[3] = "「めったに当たらない」演技（えんぎ）が下手（へた）な役者（やく）を？！";
+  detail[4] = "食物繊維（しょくもつせんい）の王様（おうさま）！ポリフェノールたっぷりで消臭効果（しょうしゅうこうか）";
+  detail[5] = "黒（くろ）くて厚（あつ）い皮（かわ）に覆（おお）われていてハロウィンの主役（しゅやく）";
+  detail[6] = "スーパーで選（えら）ぶ時（とき）は軽（かる）いものを選（えら）ぼう";
+  detail[7] = "夏（なつ）が旬（しゅん）で夏（なつ）バテやほてりを予防（よぼう）する効果（こうか）があるよ！";
+  detail[8] = "意外（いがい）なことに100品種以上（ひんしゅいじょう）もある！家族（かぞく）が多（おお）いね！";
+  detail[9] = "カラフルな完熟果物（かんじゅくかじつ）で料理（りょうり）に彩り（いろどり）を添（そえる）える立役者（たてやくしゃ）！";
+  detail[10] = "花言葉（はなことば）は「海（うみ）の恵（めぐみ）み」！海産物（かいさんぶつ）じゃないのに不思議（ふしぎもの）だなぁ";
+  detail[11] = "芽（め）を取（と）り除（のぞ）かないと食中毒（しょくちゅうどく）になってしまう恐（おそ）れがあるよ！（ソラニン）";
+  detail[12] = "実（じつ）は蓮（はす）の茎（くき）で、穴（あな）の数（かず）は10個（こ）と決（きま）まっています。";
+  detail[13] = "蒸（む）したらまるでスイーツのように甘（あまい）い";
+  detail[14] = "木（き）に生（は）えるキノコ";
+  detail[15] = "名前（なまえ）の由来（ゆらい）は「地面（じめん）を占領（せんりょう）するほど一面（いちめん）";
+  detail[16] = "切（き）っていると悲（かな）しくないのに涙（なみだ）が出（で）てくる？（硫化（りゅうか）アリルという物質（ぶっしつ）が関係（かんけい））";
+  detail[17] = "真（ま）っ赤（か）なおべべでリコピンたっぷり！";
+  detail[18] = "全体（ぜんたい）の９５パーセントが水分（すいぶん）でできている！";
   
-  for(int i = 0; i < 18; i++) {
-    vegetable[i] = new Vegetable(odai[i], "aaaaaaaaaaaaaaaaaaaa",imgk[i]);
+  for(int i = 0; i < 19; i++) {
+    vegetable[i] = new Vegetable(odai[i],detail[i],imgk[i]);
   }
   
   shuffleVegetable(vegetable);
@@ -456,12 +475,12 @@ int gameKaruta(){
   textAlign(CORNER);
   textSize(52);
   text(card[cur].vegetable.name,width/2-2*52, 485, 330, 300); 
-  text(str(time),width/2-4*52, 285, 330, 300); 
+  //text(str(time),width/2-4*52, 285, 330, 300); 
   } else {
     fill(0);
     textAlign(CORNER);
-    textSize(52);
-    text(card[cur].vegetable.detail,width/2-2*52, 485, 330, 300); 
+    textSize(24);
+    text(card[cur].vegetable.detail,35, 460, 800, 300); 
   }
   
   } else {

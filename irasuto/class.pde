@@ -1,6 +1,7 @@
 class Vegetable {
   String name;
   String detail;
+  String place;
   PImage img;
   final int twidth;
   final int theight;
@@ -19,6 +20,15 @@ class Vegetable {
    twidth = img.width;
    theight = img.height;
  }
+ 
+ Vegetable(String name, String detail, PImage img, String place) {
+   this.name = name;
+   this.img = img;
+   this.detail = detail;
+   this.place = place;
+   twidth = img.width;
+   theight = img.height;
+ }
 }
 
 //カルタのクラス
@@ -27,7 +37,7 @@ class Card {
   int y;
   boolean isShow = true;
   PImage karuta = loadImage("karuta.png");
-  private Vegetable vegetable;
+  Vegetable vegetable;
   
   Card(int x, int y, Vegetable vegetable) {
     this.x = x;
