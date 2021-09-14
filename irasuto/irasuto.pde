@@ -25,6 +25,8 @@ int rectY = 100;
 int x, iy = 0;
 boolean gameclick3 = false;
 boolean gameclick4 = false;
+boolean gameclick5 = false;
+boolean gameclick6 = false;
 
 int endtime;
 
@@ -33,7 +35,7 @@ boolean isword;
 PImage img1;
 String path[] = {"ゴーヤ.png","imo.png","kabu.png","melo.png","nas.png",
                  "onion.png","papu.png","take.png","tomato1.png","pi.png"};
-String savefile = "data/score.txt";
+String savefile;
 Minim minim;
 AudioSnippet correctSnd;
 AudioSnippet wrongSnd;
@@ -167,8 +169,28 @@ void setup() {
   detail[17] = "真（ま）っ赤（か）なおべべでリコピンたっぷり！";
   detail[18] = "全体（ぜんたい）の９５パーセントが水分（すいぶん）でできている！";
   
+  place[0] = "愛知";
+  place[1] = "北海道";
+  place[2] = "北海道";
+  place[3] = "北海道";
+  place[4] = "青森";
+  place[5] = "北海道";
+  place[6] = "長野";
+  place[7] = "高知";
+  place[8] = "千葉";
+  place[9] = "宮城";
+  place[10] = "茨城";
+  place[11] = "北海道";
+  place[12] = "茨城";
+  place[13] = "鹿児島";
+  place[14] = "徳島";
+  place[15] = "長野";
+  place[16] = "北海道";
+  place[17] = "熊本";
+  place[18] = "宮崎";
+  
   for(int i = 0; i < 19; i++) {
-    vegetable[i] = new Vegetable(odai[i],detail[i],imgk[i]);
+    vegetable[i] = new Vegetable(odai[i],detail[i],imgk[i],place[i]);
   }
   
   shuffleVegetable(vegetable);
@@ -371,13 +393,13 @@ int karutaMode() {
   text("やさいの\nせつめい", width*7/9, height*3/4);
 
   
-  if(mousePressed == true && dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2){
+  if(gameclick5){
     isword = true;
     baseTime = millis();
     return 4;
   }
   
-  if(mousePressed == true && dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2){
+  if(gameclick6){
     isword = false;
     baseTime = millis();
     return 4;
@@ -481,6 +503,7 @@ int gameKaruta(){
     textAlign(CORNER);
     textSize(24);
     text(card[cur].vegetable.detail,35, 460, 800, 300); 
+    text(card[cur].vegetable.place, 800, 550, 800, 300);
   }
   
   } else {

@@ -19,6 +19,16 @@ void mouseClicked() {
     }
   }
   
+  if(state == 33) {
+    if(dist(width*2/9, height*3/4, mouseX, mouseY) <= rectX/2) {
+      gameclick5 = true;
+    }
+    
+    if(dist(width*7/9, height*3/4, mouseX, mouseY) <= rectX/2) {
+      gameclick6 = true;
+    }
+  }
+  
   
 
 
@@ -136,6 +146,12 @@ void saveScore(float time) {
     //上位を5を記録
     
     endTime = (2000*wrongNum+time) / 1000.0;
+    if(isword) {
+      savefile = "data/score1.txt";
+    } else {
+      savefile = "data/score2.txt";;
+    }
+    
     String[] scores = loadStrings(savefile);
     float[] saveScores = new float[scores.length+1];
     saveScores[0]  = endTime;
