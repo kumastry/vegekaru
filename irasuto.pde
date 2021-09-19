@@ -394,12 +394,14 @@ int karutaMode() {
 
   
   if(gameclick5){
+    gameclick5 = false;
     isword = true;
     baseTime = millis();
     return 4;
   }
   
   if(gameclick6){
+    gameclick6 = false;
     isword = false;
     baseTime = millis();
     return 4;
